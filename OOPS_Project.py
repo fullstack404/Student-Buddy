@@ -1,24 +1,21 @@
 # Python program that provides various functionalities which a college requires using OOPS concepts.
+import pandas as pd
 
 # Admission class
-from tkinter import Y
-
-from numpy import i0
-
-
 class Admission:
     '''Admission class is the class which handles the process of admission of a student based on the eligibity criteria'''
-    with open('count.txt','r') as f:
+    with open('count.txt', 'r') as f:
         counter = int(f.read())
-   
+    
     # Courses available in college.
-    courses = {"Science": [["BCA", 100, 100000], ["BCA in Analytics", 70, 120000], ["BSc(PMCS)", 60, 80000], ["BSc(PME)", 60, 80000]], "Commerce": [["BBA", 100, 100000], ["BBA in Aviation", 70, 120000], [
-        "BCom", 100, 80000], ["BCom in Finance", 70, 100000], ["BCom in Tourism", 70, 100000]], "Arts": [["BA in English", 70, 80000], ["BA in Sociology", 70, 80000], ["BA in Economics", 70, 80000]]}
-
+    df = pd.read_csv("seat_count.csv")
+    courses = {"Science": [["BCA", df.loc[0][0], 100000], ["BCA in Analytics", df.loc[0][1], 120000], ["BSc(PMCS)", df.loc[0][2], 80000], ["BSc(PME)", df.loc[0][3], 80000]], "Commerce": [["BBA", df.loc[0][4], 100000], ["BBA in Aviation", df.loc[0][5], 120000], [
+        "BCom", df.loc[0][6], 80000], ["BCom in Finance", df.loc[0][7], 100000], ["BCom in Tourism", df.loc[0][8], 100000]], "Arts": [["BA in English", df.loc[0][9], 80000], ["BA in Sociology", df.loc[0][10], 80000], ["BA in Economics", df.loc[0][11], 80000]]}
+    print(courses)
     def __init__(self, first_name, last_name, gender, dob, phone_no, email_id, address, father_name, father_occupation, mother_name, mother_occupation, category, tenth_score, twelveth_score, previous_stream, stream_opting_for, course_opting_for, achievements):
         # Personal details
         self.__appno = "APPLN" + str(Admission.counter)
-        with open('count.txt','w') as f:
+        with open('count.txt', 'w') as f:
             Admission.counter += 1
             f.write(str(Admission.counter))
 
@@ -47,8 +44,8 @@ class Admission:
         # Documents details
         self.__documents = {"10th_marks_card": None, "12th_marks_card": None,
                             "Aadhar_Card": None, "Code_of_conduct": None, "Transfer_certificate": None}
-    
-    #GET methods
+
+    # GET methods
     def get_app_no(self):
         return self.__appno
 
@@ -109,65 +106,69 @@ class Admission:
     def get_documents(self):
         return self.__documents
 
-    #SET methods
+    # SET methods
 
-    def set_fname(self,fname):
+    def set_fname(self, fname):
         self.__first_name = fname
-    
-    def set_lname(self,lname):
+
+    def set_lname(self, lname):
         self.__last_name = lname
-    
-    def set_gender(self,gender):
-        self.__gender= gender
-    
-    def set_dob(self,dob):
-        self.__dob = dob 
-    
-    def set_phone_no(self,phoneno):
-        self.__phone_no = phoneno 
-    
-    def set_email_id(self,emailid):
-        self.__email_id = emailid 
-    
-    def set_address(self,address):
-        self.__address = address 
-    
-    def set_father_name(self,fathername):
-        self.__father_name = fathername 
-    
-    def set_father_occupation(self,fatheroccupation):
+
+    def set_gender(self, gender):
+        self.__gender = gender
+
+    def set_dob(self, dob):
+        self.__dob = dob
+
+    def set_phone_no(self, phoneno):
+        self.__phone_no = phoneno
+
+    def set_email_id(self, emailid):
+        self.__email_id = emailid
+
+    def set_address(self, address):
+        self.__address = address
+
+    def set_father_name(self, fathername):
+        self.__father_name = fathername
+
+    def set_father_occupation(self, fatheroccupation):
         self.__father_occupation = fatheroccupation
-    
-    def set_mother_name(self,mothername):
-        self.__mother_name = mothername 
-    
-    def set_mother_occupation(self,motheroccupation):
-        self.__mother_occupation = motheroccupation 
-    
-    def set_category(self,category):
-        self.__category = category 
-    
-    def set_tenth_score(self,tenthscore):
-        self.__tenth_score = tenthscore 
-    
-    def set_twelve_score(self,twelvescore):
-        self.__twelveth_score = twelvescore 
-    
-    def set_previous_stream(self,previousstream):
-        self.__previous_stream = previousstream 
-    
-    def set_opting_stream(self,optingstream):
-        self.__stream_opting_for = optingstream 
-    
-    def set_opting_course(self,optingcourse):
-        self.__course_opting_for = optingcourse 
-    
-    def set_achievements(self,achievements):
+
+    def set_mother_name(self, mothername):
+        self.__mother_name = mothername
+
+    def set_mother_occupation(self, motheroccupation):
+        self.__mother_occupation = motheroccupation
+
+    def set_category(self, category):
+        self.__category = category
+
+    def set_tenth_score(self, tenthscore):
+        self.__tenth_score = tenthscore
+
+    def set_twelve_score(self, twelvescore):
+        self.__twelveth_score = twelvescore
+
+    def set_previous_stream(self, previousstream):
+        self.__previous_stream = previousstream
+
+    def set_opting_stream(self, optingstream):
+        self.__stream_opting_for = optingstream
+
+    def set_opting_course(self, optingcourse):
+        self.__course_opting_for = optingcourse
+
+    def set_achievements(self, achievements):
         self.__achievements = achievements
 
-    def set_status(self,status):
+    def set_status(self, status):
         self.__status = status
 
+    def set_documents(self, doc):
+        self.__documents = doc
+
+    # Checking if seats are available.
     def check_course_availability(self):
         status = 0
         stream_opted = self.__stream_opting_for
@@ -186,9 +187,8 @@ class Admission:
                     continue
         if status == 0:
             return "Unfortunately, course you're looking for is not available."
-                    
-    
 
+    # Checking eligibility of the student based on his marks, previous stream and category.
     def check_eligibility(self):
         '''This function checks the eligibility of a student based on the course he/she has completed and the marks he has scored in his previous grade and the category he belongs to.'''
         marks_scored = self.get_twelveth_score()
@@ -207,7 +207,7 @@ class Admission:
         elif previous_stream == "Commerce" and opting_stream == "Commerce" or opting_stream == "Arts":
             if category == "General" and marks_scored > 80:
                 return True
-            elif category == "SC|ST" and marks_scored > 60 or category == "2A" and marks_scored > 60  or category == "2B" and marks_scored > 60 or category == "3B" and marks_scored > 60:
+            elif category == "SC|ST" and marks_scored > 60 or category == "2A" and marks_scored > 60 or category == "2B" and marks_scored > 60 or category == "3B" and marks_scored > 60:
                 return True
             else:
                 return "Unfortunately, you are not eligible for this course based on the marks you have scored in your previous grade."
@@ -222,9 +222,10 @@ class Admission:
         else:
             return "You cannot opt for this course as you do not have the required educational background."
 
-    def admission_process(self):
+    # Collects documents input from the user.
+    def document_submission(self):
         documents = self.get_documents()
-        tenth_marks_card = input("Do you have your 10th marks card? Y/N\n")
+        tenth_marks_card = input("\nDo you have your 10th marks card? Y/N\n")
         twelveth_marks_card = input("Do you have your 12th marks card? Y/N\n")
         aadhar_card = input("Do you have your Aadhar card? Y/N\n")
         code_of_conduct = input("Do you have your code_of_conduct? Y/N\n")
@@ -241,30 +242,47 @@ class Admission:
         if transfer_cert.upper() == "Y":
             documents["Transfer_certificate"] = "Submitted"
 
-        return True
+        return documents
 
-    def document_submission_check(self):
-        documents = self.get_documents()
-        if None in documents.values():
-            print("Submit the following documents for completing the admission process.")
-            for document, status in documents.items():
-                if status == "None":
-                    print(document)
-            return False
-        else:
-            return True
-
+    # Collects fee payement input from the user.
     def fee_payment(self):
         fee_to_be_paid = 0
-        if self.document_submission_check() == True:
-            course_info = Admission.courses
-            course_opted = self.get_course_opting_for()
-            for stream, courses in course_info.items():
-                for course_name, seats, fee in courses:
-                    if course_name == course_opted:
-                        fee_to_be_paid = fee
-            answer = input(
-                f"Please pay the {fee_to_be_paid} amount to get your admission done. Y/N \n")
-            if answer.upper() == "Y":
-                return True
+        df = pd.read_csv("seat_count.csv")
 
+        course_info = Admission.courses
+        course_opted = self.get_course_opting_for()
+        for stream, courses in course_info.items():
+            for course_name, seats, fee in courses:
+                if course_name == course_opted:
+                    fee_to_be_paid = fee
+                    answer = input(
+                        f"\nPlease pay the {fee_to_be_paid} amount to get your admission done. Y/N \n")
+                    if answer == "Y":
+                        seats -= 1
+                        #Reducing seat count by one after the completition of admission process.
+                        if course_opted == "BCA":
+                            df.loc[0][0] = seats
+                        elif course_opted == "BCA with Analytics":
+                            df.loc[0][1] = seats
+                        elif course_opted == "BSc(PMCS)":
+                            df.loc[0][2] = seats
+                        elif course_opted == "BSc(PME)":
+                            df.loc[0][3] = seats
+                        elif course_opted == "BBA":
+                            df.loc[0][4] = seats
+                        elif course_opted == "BBA in Aviation":
+                            df.loc[0][5] = seats
+                        elif course_opted == "BCom":
+                            df.loc[0][6] = seats
+                        elif course_opted == "BCom in Finance":
+                            df.loc[0][7] = seats
+                        elif course_opted == "BCom in Tourism":
+                            df.loc[0][8] = seats
+                        elif course_opted == "BA in English":
+                            df.loc[0][9] = seats
+                        elif course_opted == "BA in Sociology":
+                            df.loc[0][10] = seats
+                        elif course_opted == "BA in Economics":
+                            df.loc[0][11] = seats
+
+                        df.to_csv("seat_count.csv", index=False)
