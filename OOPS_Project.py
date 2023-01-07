@@ -1,17 +1,19 @@
 # Python program that provides various functionalities which a college requires using OOPS concepts.
 import pandas as pd
-
+import datetime
 # Admission class
+
+
 class Admission:
     '''Admission class is the class which handles the process of admission of a student based on the eligibity criteria'''
-    with open('count.txt', 'r') as f:
+    with open('appln_count.txt', 'r') as f:
         counter = int(f.read())
-    
+
     # Courses available in college.
     df = pd.read_csv("seat_count.csv")
     courses = {"Science": [["BCA", df.loc[0][0], 100000], ["BCA in Analytics", df.loc[0][1], 120000], ["BSc(PMCS)", df.loc[0][2], 80000], ["BSc(PME)", df.loc[0][3], 80000]], "Commerce": [["BBA", df.loc[0][4], 100000], ["BBA in Aviation", df.loc[0][5], 120000], [
         "BCom", df.loc[0][6], 80000], ["BCom in Finance", df.loc[0][7], 100000], ["BCom in Tourism", df.loc[0][8], 100000]], "Arts": [["BA in English", df.loc[0][9], 80000], ["BA in Sociology", df.loc[0][10], 80000], ["BA in Economics", df.loc[0][11], 80000]]}
-    print(courses)
+
     def __init__(self, first_name, last_name, gender, dob, phone_no, email_id, address, father_name, father_occupation, mother_name, mother_occupation, category, tenth_score, twelveth_score, previous_stream, stream_opting_for, course_opting_for, achievements):
         # Personal details
         self.__appno = "APPLN" + str(Admission.counter)
@@ -259,7 +261,7 @@ class Admission:
                         f"\nPlease pay the {fee_to_be_paid} amount to get your admission done. Y/N \n")
                     if answer == "Y":
                         seats -= 1
-                        #Reducing seat count by one after the completition of admission process.
+                        # Reducing seat count by one after the completition of admission process.
                         if course_opted == "BCA":
                             df.loc[0][0] = seats
                         elif course_opted == "BCA with Analytics":
@@ -286,3 +288,102 @@ class Admission:
                             df.loc[0][11] = seats
 
                         df.to_csv("seat_count.csv", index=False)
+
+# Student class
+class Student():
+    def __init__(self,name,dob,phoneno,address,stream,course):
+        if course == "BCA":
+           txtFile = "bca.txt"
+           csvFile = "BCA.csv"
+           initial = "BCA"
+        elif course == "BCA in Analytics":
+            txtFile = "bca_in_analytics.txt"
+            csvFile = "BCA_Analytics.csv"
+            initial = "BCAAN"
+        elif course == "BSc(PMCS)":
+            txtFile = "bscpmcs.txt"
+            csvFile = "BSC(PMCS).csv"
+            initial = "BSCPMCS"
+        elif course == "BSc(PME)":
+            txtFile = "bscpme.txt"
+            csvFile = "BSC(PME).csv"
+            initial = "BSCPME"
+        elif course == "BBA":
+            txtFile = "bba.txt"
+            csvFile = "BBA.csv"
+            initial = "BBA"
+        elif course == "BBA in Aviation":
+            txtFile = "bba_aviation.txt"
+            csvFile = "BBA_in_Aviation.csv"
+            initial = "BBAAV"
+        elif course == "BCom":
+            txtFile = "bcom.txt"
+            csvFile = "BCOM.csv"
+            initial = "BCOM"
+        elif course == "BCom in Finance":
+            txtFile = "bcom_finance.txt"
+            csvFile = "BCOM_in_Finance.csv"
+            initial = "BCOMFI"
+        elif course == "BCom in Tourism":
+            txtFile = "bcom_tourism.txt"
+            csvFile = "BCOM_in_Tourism.csv"
+            initial = "BCOMTU"
+        elif course == "BA in English":
+            txtFile = "ba_english.txt"
+            csvFile = "BA_in_English.csv"
+            initial = "BAENG"
+        elif course == "BA in Economics":
+            txtFile = "ba_economics.txt"
+            csvFile = "BA_in_Economics.csv"
+            initial = "BAECO"
+        elif course == "BA in Sociology":
+            txtFile = "ba_sociology.txt"
+            csvFile = "BA_in_Sociology.csv"
+            initial = "BASOC"
+
+        with open(txtFile, 'r') as r:
+            count = r.read()
+            year = datetime.date.today().year
+            self.__reg_no = str(year)[2] + str(year)[3] + initial + count
+        
+        with open(txtFile,'w') as w:
+           count = str(int(count) + 1)
+           w.write(count)
+        
+        self.__name = name
+        self.__dob = dob
+        self.__phoneno = phoneno
+        self.__address = address
+        self.__stream = stream
+        self.__course = course
+        self.__csv = csvFile
+
+    #GET methods
+    def get_reg_no(self):
+        return self.__reg_no
+
+    def get_name(self):
+        return self.__name
+
+    def get_dob(self):
+        return self.__dob
+
+    def get_phoneno(self):
+        return self.__phoneno
+    
+    def get_address(self):
+        return self.__address
+
+    def get_stream(self):
+        return self.__stream
+        
+    def get_course(self):
+        return self.__course
+
+    def display_ID(self):
+        pass
+
+    
+
+
+           
