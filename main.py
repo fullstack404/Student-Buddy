@@ -341,18 +341,32 @@ def admission():
     # Updating applicant's information
     def update_app():
         clear()
+        appln_no = []
+        csv_file_reader = csv.reader(open("C:\\Users\\2145644\\OOPS Project\\applications.csv", "r"))
+        for row1 in csv_file_reader:
+            if row1[0] == 'appno':
+                continue
+            appln_no.append(row1[0])
+
         print(" Update Application ".center(146, '-'))
         print("\nPress 0 to go back to main menu")
-        appno = input("\nEnter your application number : ")
-        if appno == str(0):
-            admission()
-        csv_file_reader = csv.reader(
-            open("C:\\Users\\2145644\\OOPS Project\\applications.csv", "r"))
+        status = 0
+        while(status == 0):
+            appno = input("\nEnter your application number : ")
+            if appno == str(0):
+                admission()
+            elif appno in appln_no:
+                status = 1
+            else:
+                print("\nApplication entered is incorrect. Please enter the right application number.")
+                
+                
         columns = ["Application No.", "First name", "Last name", "Gender", "DOB", "Phone Number", "Email-ID", "Address", "Father name", "Father occupation",
                    "Mother name", "Mother occupation", "Category", "10th score", "12th score", "Previous stream", "Opting stream", "Opting course", "Achievements", "Documents"]
         index = 0
         row_pos = 0
-        for row in csv_file_reader:
+        csv_file_reader2 = csv.reader(open("C:\\Users\\2145644\\OOPS Project\\applications.csv", "r"))
+        for row in csv_file_reader2:
             if row[0] == appno:
                 for i in range(len(row)):
                     if index == 19:
@@ -362,7 +376,7 @@ def admission():
                 break
             else:
                 row_pos += 1
-
+            
         counter = 0
         df = pd.read_csv("applications.csv")
         while (counter == 0):
@@ -583,13 +597,29 @@ def admission():
 
 def idcard():
     clear()
+    appln_no = []
+    csv_file_reader = csv.reader(open("C:\\Users\\2145644\\OOPS Project\\applications.csv", "r"))
+    for row1 in csv_file_reader:
+        if row1[0] == 'appno':
+            continue
+        appln_no.append(row1[0])
+
     print(" ID Card Registration ".center(146,'-'))
-    appno = input("\nEnter your application number : ")
+    status = 0
+    while(status == 0):
+        appno = input("\nEnter your application number : ")
+        if appno == str(0):
+            admission()
+        elif appno in appln_no:
+            status = 1
+        else:
+            print("\nApplication entered is incorrect. Please enter the right application number.")
+                
     print("Please wait as we retrieve your details from our database...")
     time.sleep(5)
-    csv_file_reader = csv.reader(open("C:\\Users\\2145644\\OOPS Project\\applications.csv", "r"))
+    csv_file_reader3 = csv.reader(open("C:\\Users\\2145644\\OOPS Project\\applications.csv", "r"))
     details = []
-    for row in csv_file_reader:
+    for row in csv_file_reader3:
         if row[0] == appno:
             for i in range(1,8):
                 if i == 3 or i == 6:
@@ -597,6 +627,7 @@ def idcard():
                 details.append(row[i])
             for i in range(16,18):
                 details.append(row[i])
+    
             
     fname,lname,dob,phoneno,address,stream,course = details
     name = fname + " " + lname
@@ -610,12 +641,26 @@ def idcard():
             continue
         new_info[key] = j
         data = [new_info]
+    
 
             # Writing the info dictionary to a csv file.
-    fields = ["reg_no","name","dob","phoneno","address","stream","course"]
+    fields = ["reg_no","name","dob","emailid","phoneno","address","stream","course"]
     with open(csvFile, 'a', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fields)
         writer.writerows(data)
+        print(f'''\n\nID card generated
+----------------------------------------
+Name : {a.get_name()}                          
 
+Register No. : {a.get_reg_no()}                    
+                    
+Class : {a.get_course()}
+
+Phone : {a.get_phoneno()}
+
+Email : {a.get_emailid()} 
+----------------------------------------''')
+        time.sleep(5)
+        main_menu()
         
 main_menu()

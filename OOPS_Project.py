@@ -352,6 +352,7 @@ class Student():
         
         self.__name = name
         self.__dob = dob
+        self.__emailid = self.__reg_no + "@kristujayanti.com"
         self.__phoneno = phoneno
         self.__address = address
         self.__stream = stream
@@ -367,6 +368,9 @@ class Student():
 
     def get_dob(self):
         return self.__dob
+    
+    def get_emailid(self):
+        return self.__emailid
 
     def get_phoneno(self):
         return self.__phoneno

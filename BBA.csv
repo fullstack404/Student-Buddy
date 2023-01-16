@@ -1,2 +1,2 @@
-reg_no,name,dob,phoneno,address,stream,course
-23BBA4,Mohammed Shariff,14-04-2000,7019896754,"High street, Bangalore",Commerce,BBA
+reg_no,name,dob,emailid,phoneno,address,stream,course
+,,,,,,,
