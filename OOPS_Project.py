@@ -17,7 +17,7 @@ class Admission:
     def __init__(self, first_name, last_name, gender, dob, phone_no, email_id, address, father_name, father_occupation, mother_name, mother_occupation, category, tenth_score, twelveth_score, previous_stream, stream_opting_for, course_opting_for, achievements):
         # Personal details
         self.__appno = "APPLN" + str(Admission.counter)
-        with open('count.txt', 'w') as f:
+        with open('appln_count.txt', 'w') as f:
             Admission.counter += 1
             f.write(str(Admission.counter))
 
@@ -199,25 +199,25 @@ class Admission:
         category = self.get_category()
 
         if previous_stream == "Science" and opting_stream == "Science" or opting_stream == "Commerce" or opting_stream == "Arts":
-            if category == "General" and marks_scored > 75:
+            if category == "General" and int(marks_scored) > 75:
                 return True
-            elif category == "SC|ST" or category == "2A" or category == "2B" or category == "3B" and marks_scored > 70:
+            elif category == "SC|ST" or category == "2A" or category == "2B" or category == "3B" and int(marks_scored) > 70:
                 return True
             else:
                 return "Unfortunately, you are not eligible for this course based on the marks you have scored in your previous grade."
 
         elif previous_stream == "Commerce" and opting_stream == "Commerce" or opting_stream == "Arts":
-            if category == "General" and marks_scored > 80:
+            if category == "General" and int(marks_scored) > 80:
                 return True
-            elif category == "SC|ST" and marks_scored > 60 or category == "2A" and marks_scored > 60 or category == "2B" and marks_scored > 60 or category == "3B" and marks_scored > 60:
+            elif category == "SC|ST" and int(marks_scored) > 60 or category == "2A" and int(marks_scored) > 60 or category == "2B" and int(marks_scored) > 60 or category == "3B" and int(marks_scored) > 60:
                 return True
             else:
                 return "Unfortunately, you are not eligible for this course based on the marks you have scored in your previous grade."
 
         elif previous_stream == "Arts" and opting_stream == "Arts":
-            if category == "General" and marks_scored > 80:
+            if category == "General" and int(marks_scored) > 80:
                 return True
-            elif category == "SC|ST" or category == "2A" or category == "2B" or category == "3B" and marks_scored > 50:
+            elif category == "SC|ST" or category == "2A" or category == "2B" or category == "3B" and int(marks_scored) > 50:
                 return True
             else:
                 return "Unfortunately, you are not eligible for this course based on the marks you have scored in your previous grade."
@@ -227,23 +227,63 @@ class Admission:
     # Collects documents input from the user.
     def document_submission(self):
         documents = self.get_documents()
-        tenth_marks_card = input("\nDo you have your 10th marks card? Y/N\n")
-        twelveth_marks_card = input("Do you have your 12th marks card? Y/N\n")
-        aadhar_card = input("Do you have your Aadhar card? Y/N\n")
-        code_of_conduct = input("Do you have your code_of_conduct? Y/N\n")
-        transfer_cert = input("Do you have your transfer certificate? Y/N\n")
-
-        if tenth_marks_card.upper() == "Y":
-            documents["10th_marks_card"] = "Submitted"
-        if twelveth_marks_card.upper() == "Y":
-            documents["12th_marks_card"] = "Submitted"
-        if aadhar_card.upper() == "Y":
-            documents["Aadhar_Card"] = "Submitted"
-        if code_of_conduct.upper() == "Y":
-            documents["Code_of_conduct"] = "Submitted"
-        if transfer_cert.upper() == "Y":
-            documents["Transfer_certificate"] = "Submitted"
-
+    
+        counter1 = 0
+        while counter1 == 0:
+            tenth_marks_card = input("\nDo you have your 10th marks card? Y/N\n")
+            if tenth_marks_card.upper() == "Y":
+                documents["10th_marks_card"] = "Submitted"
+                counter1 = 1
+            elif tenth_marks_card.upper() == "N":
+                documents["10th_marks_card"] = "Not submitted"
+                counter1 = 1
+            else:
+                print("\nInvalid input")
+        counter2 = 0
+        while counter2 == 0:
+            twelveth_marks_card = input("Do you have your 12th marks card? Y/N\n")
+            if twelveth_marks_card.upper() == "Y":
+                documents["12th_marks_card"] = "Submitted"
+                counter2 = 1
+            elif twelveth_marks_card.upper() == "N":
+                documents["12th_marks_card"] = "Not submitted"
+                counter2 = 1
+            else:
+                print("\nInvalid input")
+        counter3 = 0
+        while counter3 == 0:
+            aadhar_card = input("Do you have your Aadhar card? Y/N\n")
+            if aadhar_card.upper() == "Y":
+                documents["Aadhar_Card"] = "Submitted"
+                counter3 = 1
+            elif aadhar_card.upper() == "N":
+                documents["Aadhar_Card"] = "Not submitted"
+                counter3 = 1
+            else:
+                print("\nInvalid input")
+        counter4 = 0
+        while counter4 == 0:
+            code_of_conduct = input("Do you have your code_of_conduct? Y/N\n")
+            if code_of_conduct.upper() == "Y":
+                documents["Code_of_conduct"] = "Submitted"
+                counter4 = 1
+            elif code_of_conduct.upper() == "N":
+                documents["Code_of_conduct"] = "Not submitted"
+                counter4 = 1
+            else:
+                print("\nInvalid input")
+        counter5 = 0
+        while counter5 == 0:
+            transfer_cert = input("Do you have your transfer certificate? Y/N\n")
+            if transfer_cert.upper() == "Y":
+                documents["Transfer_certificate"] = "Submitted"
+                counter5 = 1
+            elif transfer_cert.upper() == "N":
+                documents["Transfer_certificate"] = "Not submitted"
+                counter5 = 1
+            else:
+                print("\nInvalid input")
+        
         return documents
 
     # Collects fee payement input from the user.
@@ -257,88 +297,94 @@ class Admission:
             for course_name, seats, fee in courses:
                 if course_name == course_opted:
                     fee_to_be_paid = fee
-                    answer = input(
-                        f"\nPlease pay the {fee_to_be_paid} amount to get your admission done. Y/N \n")
-                    if answer == "Y":
-                        seats -= 1
+                    counter = 0
+                    while counter == 0:
+                        answer = input(
+                            f"\nPlease pay the {fee_to_be_paid} amount to get your admission done. Enter Y to complete the process\n")
+                        if answer.upper() == "Y":
+                            seats -= 1
                         # Reducing seat count by one after the completition of admission process.
-                        if course_opted == "BCA":
-                            df.loc[0][0] = seats
-                        elif course_opted == "BCA with Analytics":
-                            df.loc[0][1] = seats
-                        elif course_opted == "BSc(PMCS)":
-                            df.loc[0][2] = seats
-                        elif course_opted == "BSc(PME)":
-                            df.loc[0][3] = seats
-                        elif course_opted == "BBA":
-                            df.loc[0][4] = seats
-                        elif course_opted == "BBA in Aviation":
-                            df.loc[0][5] = seats
-                        elif course_opted == "BCom":
-                            df.loc[0][6] = seats
-                        elif course_opted == "BCom in Finance":
-                            df.loc[0][7] = seats
-                        elif course_opted == "BCom in Tourism":
-                            df.loc[0][8] = seats
-                        elif course_opted == "BA in English":
-                            df.loc[0][9] = seats
-                        elif course_opted == "BA in Sociology":
-                            df.loc[0][10] = seats
-                        elif course_opted == "BA in Economics":
-                            df.loc[0][11] = seats
-
+                            if course_opted == "BCA":
+                                df.loc[0][0] = seats
+                            elif course_opted == "BCA with Analytics":
+                                df.loc[0][1] = seats
+                            elif course_opted == "BSc(PMCS)":
+                                df.loc[0][2] = seats
+                            elif course_opted == "BSc(PME)":
+                                df.loc[0][3] = seats
+                            elif course_opted == "BBA":
+                                df.loc[0][4] = seats
+                            elif course_opted == "BBA in Aviation":
+                                df.loc[0][5] = seats
+                            elif course_opted == "BCom":
+                                df.loc[0][6] = seats
+                            elif course_opted == "BCom in Finance":
+                                df.loc[0][7] = seats
+                            elif course_opted == "BCom in Tourism":
+                                df.loc[0][8] = seats
+                            elif course_opted == "BA in English":
+                                df.loc[0][9] = seats
+                            elif course_opted == "BA in Sociology":
+                                df.loc[0][10] = seats
+                            elif course_opted == "BA in Economics":
+                                df.loc[0][11] = seats
+                            counter = 1
+                        else:
+                            print("\nInvalid input")
                         df.to_csv("seat_count.csv", index=False)
+                    
 
 # Student class
 class Student():
-    def __init__(self,name,dob,phoneno,address,stream,course):
+    '''Create Student ID based on the details collected in application.'''
+    def __init__(self,appno,name,dob,phoneno,address,stream,course):
         if course == "BCA":
            txtFile = "bca.txt"
-           csvFile = "BCA.csv"
+           csvFile = "f_bca.csv"
            initial = "BCA"
         elif course == "BCA in Analytics":
             txtFile = "bca_in_analytics.txt"
-            csvFile = "BCA_Analytics.csv"
+            csvFile = "f_bca_ana.csv"
             initial = "BCAAN"
         elif course == "BSc(PMCS)":
             txtFile = "bscpmcs.txt"
-            csvFile = "BSC(PMCS).csv"
+            csvFile = "f_bsc(pmcs).csv"
             initial = "BSCPMCS"
         elif course == "BSc(PME)":
             txtFile = "bscpme.txt"
-            csvFile = "BSC(PME).csv"
+            csvFile = "f_bsc(pme).csv"
             initial = "BSCPME"
         elif course == "BBA":
             txtFile = "bba.txt"
-            csvFile = "BBA.csv"
+            csvFile = "f_bba.csv"
             initial = "BBA"
         elif course == "BBA in Aviation":
             txtFile = "bba_aviation.txt"
-            csvFile = "BBA_in_Aviation.csv"
+            csvFile = "f_bba_ava.csv"
             initial = "BBAAV"
         elif course == "BCom":
             txtFile = "bcom.txt"
-            csvFile = "BCOM.csv"
+            csvFile = "f_bcom.csv"
             initial = "BCOM"
         elif course == "BCom in Finance":
             txtFile = "bcom_finance.txt"
-            csvFile = "BCOM_in_Finance.csv"
+            csvFile = "f_bcom_fin.csv"
             initial = "BCOMFI"
         elif course == "BCom in Tourism":
             txtFile = "bcom_tourism.txt"
-            csvFile = "BCOM_in_Tourism.csv"
+            csvFile = "f_bcom_tou.csv"
             initial = "BCOMTU"
         elif course == "BA in English":
             txtFile = "ba_english.txt"
-            csvFile = "BA_in_English.csv"
+            csvFile = "f_ba_eng.csv"
             initial = "BAENG"
         elif course == "BA in Economics":
             txtFile = "ba_economics.txt"
-            csvFile = "BA_in_Economics.csv"
+            csvFile = "f_ba_eco.csv"
             initial = "BAECO"
         elif course == "BA in Sociology":
             txtFile = "ba_sociology.txt"
-            csvFile = "BA_in_Sociology.csv"
+            csvFile = "f_ba_soc.csv"
             initial = "BASOC"
 
         with open(txtFile, 'r') as r:
@@ -349,7 +395,8 @@ class Student():
         with open(txtFile,'w') as w:
            count = str(int(count) + 1)
            w.write(count)
-        
+
+        self.__appno = appno
         self.__name = name
         self.__dob = dob
         self.__emailid = self.__reg_no + "@kristujayanti.com"
@@ -360,6 +407,9 @@ class Student():
         self.__csv = csvFile
 
     #GET methods
+    def get_appno(self):
+        return self.__appno
+
     def get_reg_no(self):
         return self.__reg_no
 
@@ -387,7 +437,7 @@ class Student():
     def display_ID(self):
         pass
 
+
+
+
     
-
-
-           
